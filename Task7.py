@@ -1,21 +1,15 @@
-def Divide(num1, num2):
-    return num1 / num2
+import re
+from collections import Counter
 
-input_num1_msg = "enter your first num:"
-input_num2_msg = "enter your secont num:"
-error_msg = "You cannot divide by 0"
-exit_msg = "Want to add another? (N or Enter)"
-while True:
-    try:
-        num1=float(input(input_num1_msg))
-        num2=float(input(input_num2_msg))
-        result = Divide(num1, num2)
-        print(result)
-        cont = input(exit_msg)
-        if cont.lower().strip() == "n":
-            break;
-    except ZeroDivisionError:
-        pass
-        print(error_msg)
-    except Exception as e:
-        print("Error: %s" % e )
+def log_reader(logfile):
+    myregex = r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}'
+
+    with open(logfile) as f:
+        log = f.read()
+        iplist = re.findall(myregex,log)
+        count = Counter(iplist)
+        for i, c in count.items():
+            print("IP Address " + "=> " + str(i) + " " + "Count "  + "=> " + str(c))
+
+if __name__ == '__main__':
+    log_reader(r"C:\Users\User\access_log.txt")
